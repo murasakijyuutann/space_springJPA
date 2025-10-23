@@ -1,41 +1,42 @@
 package mjyuu.springJPA.entity;
 
-import java.sql.Timestamp; // ✅ correct import
-
+import java.sql.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor // ✅ needed by JPA
+@Builder
+@Entity
 @Getter
 @Setter
-@Entity
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Board {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ auto-increment primary key
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment primary key
+    private Long id; // ✅ Use Long for IDs (standard JPA convention)
 
-    @Column(nullable=false)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(length=20, nullable=false)
+    @Column(nullable = false, length = 50)
     private String writer;
 
-    @Column(length=4000, nullable=false)
+    @Column(nullable = false, length = 4000)
     private String content;
 
-    @CreationTimestamp
+    @CreationTimestamp // Automatically fills on insert
+    @Column(updatable = false)
     private Timestamp createdDate;
 }
